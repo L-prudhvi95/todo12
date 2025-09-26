@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="container">
+        <h3 class="pt-5">Todo Application </h3>
+        <div class="row">
+            <h4>Date</h4>
+            <p>{% now "DATE_FORMAT" %}</p>
+            <div class="col-md-7" style="height:450px; overflow:scroll;">
+                {% for task in task %}
+                <div class="card m-1">
+                    <div class="card-body">
+                        {{task.task}}
+                        <span style="positon:relative;float:right;">
+                        <a href="{% url 'complete' task.id %}" class="btn btn-success"><i class="bi bi-check-circle"></i>Mark as done</a>
+                        <a href="{% url 'deleteData' task.id %}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                        <a href="{% url 'updateData' task.id %}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                        </span>
+                    </div>
+
+                 </div>
+                 {% endfor %}
+            </div>
+            <div class="col-md-5">
+                <h5>Completed tasks</h5>
+                {% for task in completed_tasks %}
+               
+                <div class="card">
+                    <div class="card-body">
+                        {{task.task}}
+                        <span style="positon:relative;float:right;">
+                        <a href="{% url 'incomplete' task.id %}" class="btn btn-success"><i class="bi bi-check-circle"></i>Mark as Undone</a>
+                        <a href="{% url 'deleteData' task.id %}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                        <a href="{% url 'updateData' task.id %}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                        </span>
+                    </div>
+                </div>
+                 
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-6 p-0" style="position:absolute;bottom:50px">
+            <form action= "{% url 'addTask' %}" method="POST">
+                {% csrf_token %}
+                <span style="display:flex;">
+                    <input type="text" class="form-control" placeholder="Add a task" name="task">
+                    <button type="submit" class="btn btn-primary" style="width:200px"><i class="bi bi-plus-square"></i>  Add </button>
+                </span>
+                
+            </form>
+        </div>
+    </div>
+    </div>
+
+    
+</body>
+</html>
